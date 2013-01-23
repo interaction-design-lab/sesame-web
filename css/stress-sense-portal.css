@@ -1,11 +1,8 @@
-.chart rect {
-    stroke: white;
-    fill: steelblue;
+path {
+    stroke-width: 1;
+    fill: none;
+    stroke: #333;
 }
-.chart text {
-    fill: white;
-    font: 10px sans-serif;
-}
-.chart text.rule {
-    fill: #ccc;
+path.line {
+    stroke: steelblue;
 }
