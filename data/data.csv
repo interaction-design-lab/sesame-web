@@ -1,4 +1,4 @@
-"status_id","when","stress","healthiness","pam_pa"
+"status_id","when","stress_mellin","healthiness","pam_pa"
 1890,2012-10-10 15:18:59,3,1,"11"
 2014,2012-10-10 22:08:02,4,-1,"7"
 2135,2012-10-11 13:26:18,3,3,"14"
