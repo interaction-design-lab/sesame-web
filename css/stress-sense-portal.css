@@ -1,37 +1,3 @@
-/* defaults */
-path {
-    stroke-width: 1;
-    fill: none;
-    stroke: darkgray;
-}
-line {
-    stroke: darkgray:
-}
-text {
-    stroke: none;
-    fill: #666;
-    font-family: sans-serif;
-    font-size: 11px;
-}
-
-/* datalines */
-path.dataline {
-    stroke: steelblue;
-}
-
-/* axes */
-.axis {
-    shape-rendering: crispEdges;
-}
-.x.axis path.domain {
-    stroke: none;
-}
-.x.axis line.tick {
-    stroke: lightgray;
-}
-.x.axis line.tick.minor {
-    stroke-opacity: 0.5;
-}
-.y.axis line.tick {
-    stroke: darkgray;
+body {
+  padding-top: 60px;  /* make space for header bar */
 }
