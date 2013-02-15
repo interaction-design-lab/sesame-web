@@ -35,3 +35,5 @@ path.dataline {
 .y.axis line.tick {
     stroke: darkgray;
 }
+
+/* univariate time series */
