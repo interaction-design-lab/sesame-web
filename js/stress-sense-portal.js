@@ -112,10 +112,6 @@ function timeSeriesCategorical() {
         .tickSubdivide(1)
         .tickSize(-height)
         .orient('bottom');
-    var yAxis = d3.svg.axis()
-        .scale(yScale)
-        .ticks(5)
-        .orient('left');
     var binwidth = 20;
 
     function chart(selection) {
@@ -230,12 +226,12 @@ d3.csv('./data/data.csv', function(data) {
         .call(chartPAM);
 
     // healthiness
-    var chartHealthiness = timeSeriesCategorical()
+    var chartActivity = timeSeriesCategorical()
         .x(function(d) { return d.when; })
         .y(function(d) { return d.activity; })
         .yDomain([0,1]);
-    d3.select('#chart-healthiness')
+    d3.select('#chart-activity')
         .datum(data)
-        .call(chartHealthiness);
+        .call(chartActivity);
 
 });
