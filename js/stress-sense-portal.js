@@ -206,6 +206,10 @@ d3.csv('./data/data.csv', function(data) {
         d.utc = d.when;
         d.when = parseDate(d.when);  // in local time
     });
+    
+//};
+
+//d3.
 
     // stress-mellin
     var chartStressMellin = timeSeriesLine()
@@ -225,6 +229,16 @@ d3.csv('./data/data.csv', function(data) {
         .datum(data)
         .call(chartPAM);
 
+    // sensed stress
+    var chartSensedStress = timeSeriesCategorical()
+        .x(function(d) { return d.when; })
+        .y(function(d) { return d.sensed_stress; })
+        .yDomain([0,4]);
+    d3.select('#chart-sensed-stress')
+        .datum(data)
+        .call(chartSensedStress);
+    
+
     // healthiness
     var chartActivity = timeSeriesCategorical()
         .x(function(d) { return d.when; })
@@ -233,5 +247,28 @@ d3.csv('./data/data.csv', function(data) {
     d3.select('#chart-activity')
         .datum(data)
         .call(chartActivity);
+        
+    // notes
+    var chartNotes = timeSeriesCategorical()
+        .x(function(d) { return d.when; })
+        .y(function(d) { return d.notes; })
+        .yDomain([0,1]);
+    d3.select('#chart-notes')
+        .datum(data)
+        .call(chartNotes);//;
+        
+    //d3.select("#chart-notes")
+    d3.select('#chart-notes')
+    .data(data)
+    .on("mouseover", function(d,i){
+        
+    //alert(d+' '+i+' mouseover!');
+});
 
 });
+
+/*
+$('#chart-notes').children().each(function(i){
+   alert($(this).html()); 
+});*/
+//array= $('#chart-notes').children();
