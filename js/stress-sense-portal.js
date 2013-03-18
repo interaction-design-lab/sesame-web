@@ -24,22 +24,22 @@ d3.csv(fnamebase + 'selfreport.5min.csv', function(data) {
     });
 
     // self-report stress
-    var chartStress = timeSeriesLine()
+    var chartStress = timeSeriesBar()
         .x(function(d) { return d.when; })
         .y(function(d) { return parseInt(d.stress); })
-        .yDomain([1, 5]);
+        .yDomain([0, 5]);
       d3.select('#chart-stress')
         .datum(data)
         .call(chartStress);
 
     // pam-pa
-    var chartPAM = timeSeriesLine()
+    var chartAffect = timeSeriesBar()
         .x(function(d) { return d.when; })
         .y(function(d) { return parseInt(d.pam_pa); })
         .yDomain([1,16]);
-      d3.select('#chart-pam-pa')
+      d3.select('#chart-affect')
         .datum(data)
-        .call(chartPAM);
+        .call(chartAffect);
 
 });
 
