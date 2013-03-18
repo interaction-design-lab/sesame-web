@@ -1,3 +1,9 @@
+// Time Series Charts
+// Phil Adams (http://philadams.net)
+// Cornell Interaction Design Lab (http://idl.cornell.edu)
+// Reusable elements built with D3 (http://d3js.org)
+// Based on http://bost.ocks.org/mike/chart/
+
 function timeSeriesLine() {
     var w = 860,
         h = 120,
@@ -120,7 +126,6 @@ function timeSeriesCategorical() {
             // convert data to standard representation
             data = data.map(function(d, i) {
                 return [xValue.call(data, d, i), yValue.call(data, d, i)];
-                //return d;
             });
 
             // scale the x and y domains based on the actual data
@@ -160,10 +165,9 @@ function timeSeriesCategorical() {
                 .attr('transform', 'translate(0,' + height + ')')
                 .call(xAxis);
 
-            // TODO bars legend
-
             // bars
-            svg.selectAll('rect')
+            var bars = svg.append('g');
+            bars.selectAll('rect')
                 .data(data)
               .enter().append('rect')
                 .attr('x', function(d, i) { return xScale(d[0]); })
@@ -171,6 +175,36 @@ function timeSeriesCategorical() {
                 .attr('height', height)
                 .attr('fill', function(d, i) { return yScale(d[1]); })
                 .attr('stroke', function(d, i) { return yScale(d[1]); });
+
+            // bars legend
+            var legendData = [],
+                legendFields = {};
+            data.forEach(function(d) {
+                if (!(d[1] in legendFields)) {
+                    legendData.push([d[1], yScale(d[1])]);
+                    legendFields[d[1]] = 1;
+                }
+            });
+            var legend = svg.append('g')
+                .attr('class', 'legend')
+                .attr('height', 10)
+                .attr('width', w)
+                .attr('transform', 'translate(-30, -30)')
+                .style('background', 'black');
+            legend.selectAll('rect')
+                .data(legendData)
+              .enter().append('rect')
+                .attr('x', function(d, i) { return i * 150; })
+                .attr('y', 10)
+                .attr('width', 10)
+                .attr('height', 10)
+                .style('fill', function(d) { return d[1]; });
+            legend.selectAll('text')
+                .data(legendData)
+              .enter().append('text')
+                .attr('x', function(d, i) { return i * 150 + 20; })
+                .attr('y', 20)
+                .text(function(d) { return d[0]; });
 
         });
     }
