@@ -229,3 +229,103 @@ function timeSeriesCategorical() {
 
     return chart;
 }
+
+function timeSeriesBar() {
+    var w = 860,
+        h = 120,
+        margin = {top: 20, right: 80, bottom: 30, left: 50},
+        width = w - margin.left - margin.right,
+        height = h - margin.top - margin.bottom;
+    var xValue = function(d) { return d[0]; },
+        yValue = function(d) { return d[1]; };
+    var yDomain = null;
+    var xScale = d3.time.scale()
+        .range([0, width]);
+    var yScale = d3.scale.linear()
+        .rangeRound([height, 0]);
+    var xAxis = d3.svg.axis()
+        .scale(xScale)
+        .tickSubdivide(1)
+        .tickSize(-height)
+        .orient('bottom');
+    var yAxis = d3.svg.axis()
+        .scale(yScale)
+        .ticks(5)
+        .orient('left');
+    var binwidth = 10;
+
+    function chart(selection) {
+        selection.each(function(data) {
+
+            // convert data to standard representation
+            data = data.map(function(d, i) {
+                return [xValue.call(data, d, i), yValue.call(data, d, i)];
+                //return d;
+            });
+
+            // scale the x and y domains based on the actual data
+            xScale.domain(d3.extent(data, function(d) { return d[0]; }));
+            if (!yDomain) {
+                yScale.domain(d3.extent(data, function(d) { return d[1]; }));
+            } else {
+                yScale.domain(yDomain);
+            }
+
+            // create chart space as svg
+            // note: 'this' el should not contain svg already
+            var svg = d3.select(this).append('svg').data(data);
+
+            // external dimensions
+            svg.attr('width', w)
+                .attr('height', h);
+
+            // internal dimensions
+            svg = svg.append('g')
+                .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+            // x axis
+            svg.append('g')
+                .attr('class', 'x axis')
+                .attr('transform', 'translate(0,' + height + ')')
+                .call(xAxis);
+
+            // y axis
+            svg.append('g')
+                .attr('class', 'y axis')
+                .call(yAxis);
+
+            // bars
+            var bars = svg.append('g');
+            bars.selectAll('rect')
+                .data(data)
+              .enter().append('rect')
+                .attr('x', function(d, i) { return xScale(d[0]) -.5; })
+                .attr('y', function(d) { return height - yScale(d[1]) -.5; })
+                .attr('width', binwidth)
+                .attr('height', function(d) { return yScale(d[1]); })
+                .attr('fill', 'steelblue')
+                .attr('stroke', 'white');
+
+        });
+    }
+
+    chart.x = function(_) {
+        if (!arguments.length) return xValue;
+        xValue = _;
+        return chart;
+    };
+
+    chart.y = function(_) {
+        if (!arguments.length) return yValue;
+        yValue = _;
+        return chart;
+    };
+
+    chart.yDomain = function(_) {
+        if (!arguments.length) return yDomain;
+        yDomain = _;
+        return chart;
+    };
+
+    return chart;
+}
