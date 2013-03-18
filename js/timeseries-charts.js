@@ -4,6 +4,24 @@
 // Reusable elements built with D3 (http://d3js.org)
 // Based on http://bost.ocks.org/mike/chart/
 
+// insert entries into data for start/finish of day (d3 axes hack)
+//var insertDayStartAndEnd = function(data) {
+//    var start = {},
+//        tmp = data[0];
+//        w = tmp.when;
+//    start.when = new Date(w.getFullYear(), w.getMonth(), w.getDate());
+//    start.pam_pa = 0; start.stress = 0;
+//    start.note = ''; start.user_id = tmp.user_id;
+//    var end = {},
+//        w = data[0].when;
+//    end.when = new Date(w.getFullYear(), w.getMonth(), w.getDate(), 23, 59);
+//    end.pam_pa = 0; end.stress = 0; end.note = '';
+//    end.user_id = tmp.user_id;
+//    data.splice(0, 0, start);
+//    data.splice(data.length, 0, end);
+//    return data;
+//}
+
 function timeSeriesLine() {
     var w = 860,
         h = 120,
@@ -129,7 +147,13 @@ function timeSeriesCategorical() {
             });
 
             // scale the x and y domains based on the actual data
-            xScale.domain(d3.extent(data, function(d) { return d[0]; }));
+            //xScale.domain(d3.extent(data, function(d) { return d[0]; }));
+            // TODO fix this hack setting domain to full day
+            var td = data[0][0];
+            dayStart = new Date(td.getFullYear(), td.getMonth(), td.getDate());
+            dayEnd = new Date(td.getFullYear(), td.getMonth(), td.getDate(),
+                              23, 59, 59, 999);
+            xScale.domain([dayStart, dayEnd]);
             if (!yDomain) {
                 yScale.domain(d3.extent(data, function(d) { return d[1]; }));
             } else {
@@ -242,7 +266,8 @@ function timeSeriesBar() {
     var xScale = d3.time.scale()
         .range([0, width]);
     var yScale = d3.scale.linear()
-        .rangeRound([height, 0]);
+        .rangeRound([height, 0])
+        .clamp(true);
     var xAxis = d3.svg.axis()
         .scale(xScale)
         .tickSubdivide(1)
@@ -260,11 +285,16 @@ function timeSeriesBar() {
             // convert data to standard representation
             data = data.map(function(d, i) {
                 return [xValue.call(data, d, i), yValue.call(data, d, i)];
-                //return d;
             });
 
             // scale the x and y domains based on the actual data
-            xScale.domain(d3.extent(data, function(d) { return d[0]; }));
+            //xScale.domain(d3.extent(data, function(d) { return d[0]; }));
+            // TODO: fix this hack (explicitly setting range to one day)
+            var td = data[0][0];
+            dayStart = new Date(td.getFullYear(), td.getMonth(), td.getDate());
+            dayEnd = new Date(td.getFullYear(), td.getMonth(), td.getDate(),
+                              23, 59, 59, 999);
+            xScale.domain([dayStart, dayEnd]);
             if (!yDomain) {
                 yScale.domain(d3.extent(data, function(d) { return d[1]; }));
             } else {
@@ -299,10 +329,12 @@ function timeSeriesBar() {
             bars.selectAll('rect')
                 .data(data)
               .enter().append('rect')
-                .attr('x', function(d, i) { return xScale(d[0]) -.5; })
-                .attr('y', function(d) { return height - yScale(d[1]) -.5; })
+                .attr('x', function(d, i) { return xScale(d[0]) - .5; })
+                //.attr('y', function(d) { return height - yScale(d[1]) - .5; })
+                .attr('y', function(d) { return yScale(d[1]) - .5; })
+                //.attr('y', 10)
                 .attr('width', binwidth)
-                .attr('height', function(d) { return yScale(d[1]); })
+                .attr('height', function(d) { return height - yScale(d[1]); })
                 .attr('fill', 'steelblue')
                 .attr('stroke', 'white');
 

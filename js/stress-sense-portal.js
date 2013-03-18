@@ -16,10 +16,11 @@ fnamebase = './data/uid'+params.uid+'-day'+params.day+'.';
 
 d3.csv(fnamebase + 'selfreport.5min.csv', function(data) {
 
-    // finesse data
+    // massage data
     var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse;
     data.forEach(function(d, i) {
         d.stress = parseInt(d.stress);
+        d.pam_pa = parseInt(d.pam_pa);
         d.when = parseDate(d.when);  // in local time
     });
 
@@ -40,6 +41,11 @@ d3.csv(fnamebase + 'selfreport.5min.csv', function(data) {
       d3.select('#chart-affect')
         .datum(data)
         .call(chartAffect);
+
+    // set user and date strings
+    theDate = moment(data[0].when);
+    $('#the-date').text(theDate.format('dddd, MMMM Do'));
+    $('#the-user').text('userID ' + data[0].user_id);
 
 });
 
