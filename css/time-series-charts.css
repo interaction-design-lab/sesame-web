@@ -1,13 +1,13 @@
 /* defaults */
-path {
+.timeserieschart path {
     stroke-width: 1;
     fill: none;
     stroke: darkgray;
 }
-line {
+.timeserieschart line {
     stroke: darkgray:
 }
-text {
+.timeserieschart text {
     stroke: none;
     fill: #666;
     font-family: sans-serif;
@@ -15,24 +15,24 @@ text {
 }
 
 /* datalines */
-path.dataline {
+.timeserieschart path.dataline {
     stroke: steelblue;
 }
 
 /* axes */
-.axis {
+.timeserieschart .axis {
     shape-rendering: crispEdges;
 }
-.x.axis path.domain {
+.timeserieschart .x.axis path.domain {
     stroke: none;
 }
-.x.axis line.tick {
+.timeserieschart .x.axis line.tick {
     stroke: lightgray;
 }
-.x.axis line.tick.minor {
+.timeserieschart .x.axis line.tick.minor {
     stroke-opacity: 0.5;
 }
-.y.axis line.tick {
+.timeserieschart .y.axis line.tick {
     stroke: darkgray;
 }
 

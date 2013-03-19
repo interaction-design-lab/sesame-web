@@ -68,7 +68,9 @@ function timeSeriesLine() {
 
             // create chart space as svg
             // note: 'this' el should not contain svg already
-            var svg = d3.select(this).append('svg').data(data);
+            var svg = d3.select(this).append('svg')
+                .attr('class', 'timeserieschart')
+                .data(data);
 
             // external dimensions
             svg.attr('width', w)
@@ -173,7 +175,9 @@ function timeSeriesCategorical() {
 
             // create chart space as svg
             // note: 'this' el should not contain svg already
-            var svg = d3.select(this).append('svg').data(data);
+            var svg = d3.select(this).append('svg')
+                .attr('class', 'timeserieschart')
+                .data(data);
 
             // external dimensions
             svg.attr('width', w)
@@ -303,7 +307,9 @@ function timeSeriesBar() {
 
             // create chart space as svg
             // note: 'this' el should not contain svg already
-            var svg = d3.select(this).append('svg').data(data);
+            var svg = d3.select(this).append('svg')
+                .attr('class', 'timeserieschart')
+                .data(data);
 
             // external dimensions
             svg.attr('width', w)

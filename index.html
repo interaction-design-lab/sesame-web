@@ -6,6 +6,10 @@
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/stress-sense-portal.css" rel="stylesheet">
     <link href="./css/time-series-charts.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
+<!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
+<![endif]-->
   </head>
 
   <body>
@@ -30,7 +34,7 @@
       </div>
     </div>
 
-    <div class="container">
+    <div class="container"><div class="row"><div class="span8">
 
       <h2 id="the-user">UID</h2>
       <p>You can see below your sensed and reported stress for <strong id="the-date">TODO date</strong>.</p>
@@ -48,13 +52,16 @@
         <h6>Self-reported affect</h6>
       </div>
 
-    </div>
+    </div></div></div>
+
+    <div id="map"></div>
 
   </body>
   <script src="./js/jquery-1.8.0.min.js"></script>
   <script src="./js/bootstrap.min.js"></script>
   <script src="./js/d3.v2.min.js"></script>
   <script src="./js/moment.min.js"></script>
+  <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
   <script src="./js/timeseries-charts.js"></script>
   <script src="./js/stress-sense-portal.js"></script>
 

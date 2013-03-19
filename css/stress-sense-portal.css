@@ -1,3 +1,19 @@
 body {
-  padding-top: 60px;  /* make space for header bar */
+  padding-top: 20px;  /* make space for header bar */
+}
+
+.container .span8 {
+  background: white;
+  padding: 20px;
+  height: 100%;
+}
+
+#map {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  bottom: 0;
+  left; 0;
+  z-index: -1;
+  width: 100%;
 }

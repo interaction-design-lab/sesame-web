@@ -86,3 +86,27 @@ d3.csv(fnamebase + 'audio.5min.csv', function(data) {
         .call(chartAudio);
 
 });
+
+// map!
+var map = L.map('map').setView([42.44, -76.515], 14);
+L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+             {attribution: 'Map data &copy; OpenStreetMap contributors',
+              minZoom: 8,
+              maxZoom: 18}).addTo(map);
+d3.csv(fnamebase + 'loc.5min.csv', function(data) {
+    var circle = null,
+        lat = null,
+        lon = null;
+    data.forEach(function(d, i) {
+        lat = parseFloat(d.lat);
+        lon = parseFloat(d.lon);
+        circle = L.circleMarker([lat, lon]).addTo(map);
+        circle.setRadius(5);
+        circle.setStyle({
+            color: 'red',
+            fill: true,
+            fillColor: '#f03',
+            fillOpacity: 0.2,
+        });
+    });
+});
