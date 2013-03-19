@@ -20,12 +20,15 @@ var params = getParams();
 var fnamebase = './data/uid'+params.uid+'-day'+params.day+'.';
 var fname = null;
 
-// set user and date strings
+// set user and date strings, and next/prev links
 if (params.uid && params.day) {
     //theDate = moment();
     //$('#the-date').text(theDate.format('dddd, MMMM Do'));
     $('#the-date').text('study day ' + params.day);
     $('#the-user').text('userID ' + params.uid);
+    var dayi = parseInt(params.day);
+    $('#prev-day').attr('href', './?uid='+params.uid+'&day='+(dayi-1));
+    $('#next-day').attr('href', './?uid='+params.uid+'&day='+(dayi+1));
 } else {
     alert('required GET params uid, day');
 }
