@@ -1,10 +1,10 @@
 stress-sense-portal
 ===================
 
-Webviews for StressSense data.
+Webviews for StressSense2 data.
 
-Phil Adams (http://philadams.net)
-Interaction Design Lab (http://idl.cornell.edu)
+Phil Adams (http://philadams.net) and the Interaction Design Lab
+(http://idl.cornell.edu).
 
 Looks something like this:
 
@@ -13,5 +13,5 @@ Looks something like this:
 future
 ------
 
-- resuable time series component a la http://bost.ocks.org/mike/chart/
-- bootstrap it up
+- connect map points to charts
+- vertical line on charts to more clearly show time is same across all
