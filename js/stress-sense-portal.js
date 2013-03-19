@@ -1,9 +1,14 @@
+// hackish... resolve!
+var urlExists = function(url) {
+    var http = new XMLHttpRequest();
+    http.open('HEAD', url, false);
+    http.send();
+    return http.status != 404;
+};
+
 var getParams = function() {
     params = {};
     paramstr = window.location.search.substr(1);
-    if (paramstr == '') {
-        alert('required GET params: uid, day');
-    }
     paramstr.split('&').forEach(function(param) {
         bits = param.split('=');
         params[bits[0]] = bits[1];
@@ -12,101 +17,129 @@ var getParams = function() {
 };
 
 var params = getParams();
-fnamebase = './data/uid'+params.uid+'-day'+params.day+'.';
+var fnamebase = './data/uid'+params.uid+'-day'+params.day+'.';
+var fname = null;
 
-d3.csv(fnamebase + 'selfreport.5min.csv', function(data) {
+// set user and date strings
+if (params.uid && params.day) {
+    //theDate = moment();
+    //$('#the-date').text(theDate.format('dddd, MMMM Do'));
+    $('#the-date').text('study day ' + params.day);
+    $('#the-user').text('userID ' + params.uid);
+} else {
+    alert('required GET params uid, day');
+}
 
-    // massage data
-    var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse;
-    data.forEach(function(d, i) {
-        d.stress = parseInt(d.stress);
-        d.pam_pa = parseInt(d.pam_pa);
-        d.when = parseDate(d.when);  // in local time
-    });
+// self report data
+fname = fnamebase + 'selfreport.5min.csv';
+d3.csv(fname, function(data) {
 
-    // self-report stress
-    var chartStress = timeSeriesBar()
-        .x(function(d) { return d.when; })
-        .y(function(d) { return parseInt(d.stress); })
-        .yDomain([0, 5]);
-      d3.select('#chart-stress')
-        .datum(data)
-        .call(chartStress);
+    if (data.length >= 1) {
 
-    // pam-pa
-    var chartAffect = timeSeriesBar()
-        .x(function(d) { return d.when; })
-        .y(function(d) { return parseInt(d.pam_pa); })
-        .yDomain([1,16]);
-      d3.select('#chart-affect')
-        .datum(data)
-        .call(chartAffect);
+        // massage data
+        var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse;
+        data.forEach(function(d, i) {
+            d.stress = parseInt(d.stress);
+            d.pam_pa = parseInt(d.pam_pa);
+            d.when = parseDate(d.when);  // in local time
+        });
 
-    // set user and date strings
-    theDate = moment(data[0].when);
-    $('#the-date').text(theDate.format('dddd, MMMM Do'));
-    $('#the-user').text('userID ' + data[0].user_id);
+        // self-report stress
+        var chartStress = timeSeriesBar()
+            .x(function(d) { return d.when; })
+            .y(function(d) { return parseInt(d.stress); })
+            .yDomain([0, 5]);
+          d3.select('#chart-stress')
+            .datum(data)
+            .call(chartStress);
 
-});
-
-d3.csv(fnamebase + 'accel.5min.csv', function(data) {
-
-    // finesse data
-    var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse;
-    data.forEach(function(d, i) {
-        d.when = parseDate(d.when);  // in local time
-    });
-
-    // self-report stress
-    var chartActivity = timeSeriesCategorical()
-        .x(function(d) { return d.when; })
-        .y(function(d) { return d.activity; })
-        .yDomain([0, 1]);
-      d3.select('#chart-activity')
-        .datum(data)
-        .call(chartActivity);
+        // pam-pa
+        var chartAffect = timeSeriesBar()
+            .x(function(d) { return d.when; })
+            .y(function(d) { return parseInt(d.pam_pa); })
+            .yDomain([1,16]);
+          d3.select('#chart-affect')
+            .datum(data)
+            .call(chartAffect);
+    }
 
 });
 
-d3.csv(fnamebase + 'audio.5min.csv', function(data) {
+// accelerometer data
+fname = fnamebase + 'accel.5min.csv';
+d3.csv(fname, function(data) {
 
-    // finesse data
-    var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse;
-    data.forEach(function(d, i) {
-        d.when = parseDate(d.when);  // in local time
-    });
+    if (data.length >= 1) {
 
-    // self-report stress
-    var chartAudio = timeSeriesCategorical()
-        .x(function(d) { return d.when; })
-        .y(function(d) { return d.audio; })
-        .yDomain([0, 1]);
-      d3.select('#chart-audio')
-        .datum(data)
-        .call(chartAudio);
+        // finesse data
+        var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse;
+        data.forEach(function(d, i) {
+            d.when = parseDate(d.when);  // in local time
+        });
+
+        // self-report stress
+        var chartActivity = timeSeriesCategorical()
+            .x(function(d) { return d.when; })
+            .y(function(d) { return d.activity; })
+            .yDomain([0, 1]);
+          d3.select('#chart-activity')
+            .datum(data)
+            .call(chartActivity);
+
+    }
 
 });
 
-// map!
+// audio data
+fname = fnamebase + 'audio.5min.csv';
+d3.csv(fname, function(data) {
+
+    if (data.length >= 1) {
+
+        // finesse data
+        var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse;
+        data.forEach(function(d, i) {
+            d.when = parseDate(d.when);  // in local time
+        });
+
+        // self-report stress
+        var chartAudio = timeSeriesCategorical()
+            .x(function(d) { return d.when; })
+            .y(function(d) { return d.audio; })
+            .yDomain([0, 1]);
+          d3.select('#chart-audio')
+            .datum(data)
+            .call(chartAudio);
+
+    }
+
+});
+
+// location data
 var map = L.map('map').setView([42.44, -76.515], 14);
 L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
              {attribution: 'Map data &copy; OpenStreetMap contributors',
               minZoom: 8,
               maxZoom: 18}).addTo(map);
-d3.csv(fnamebase + 'loc.5min.csv', function(data) {
-    var circle = null,
-        lat = null,
-        lon = null;
-    data.forEach(function(d, i) {
-        lat = parseFloat(d.lat);
-        lon = parseFloat(d.lon);
-        circle = L.circleMarker([lat, lon]).addTo(map);
-        circle.setRadius(5);
-        circle.setStyle({
-            color: 'red',
-            fill: true,
-            fillColor: '#f03',
-            fillOpacity: 0.2,
+fname = fnamebase + 'loc.5min.csv';
+if (!urlExists(fname)) {
+    console.log('no location data');
+} else {
+    d3.csv(fname, function(data) {
+        var circle = null,
+            lat = null,
+            lon = null;
+        data.forEach(function(d, i) {
+            lat = parseFloat(d.lat);
+            lon = parseFloat(d.lon);
+            circle = L.circleMarker([lat, lon]).addTo(map);
+            circle.setRadius(5);
+            circle.setStyle({
+                color: 'red',
+                fill: true,
+                fillColor: '#f03',
+                fillOpacity: 0.2,
+            });
         });
     });
-});
+}

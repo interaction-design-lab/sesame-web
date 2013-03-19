@@ -13,5 +13,6 @@ Looks something like this:
 future
 ------
 
+- make links for next/last day
 - connect map points to charts
 - vertical line on charts to more clearly show time is same across all

@@ -4,26 +4,8 @@
 // Reusable elements built with D3 (http://d3js.org)
 // Based on http://bost.ocks.org/mike/chart/
 
-// insert entries into data for start/finish of day (d3 axes hack)
-//var insertDayStartAndEnd = function(data) {
-//    var start = {},
-//        tmp = data[0];
-//        w = tmp.when;
-//    start.when = new Date(w.getFullYear(), w.getMonth(), w.getDate());
-//    start.pam_pa = 0; start.stress = 0;
-//    start.note = ''; start.user_id = tmp.user_id;
-//    var end = {},
-//        w = data[0].when;
-//    end.when = new Date(w.getFullYear(), w.getMonth(), w.getDate(), 23, 59);
-//    end.pam_pa = 0; end.stress = 0; end.note = '';
-//    end.user_id = tmp.user_id;
-//    data.splice(0, 0, start);
-//    data.splice(data.length, 0, end);
-//    return data;
-//}
-
 function timeSeriesLine() {
-    var w = 860,
+    var w = 800,
         h = 120,
         margin = {top: 20, right: 80, bottom: 30, left: 50},
         width = w - margin.left - margin.right,
@@ -122,7 +104,7 @@ function timeSeriesLine() {
 }
 
 function timeSeriesCategorical() {
-    var w = 860,
+    var w = 800,
         h = 70,
         margin = {top: 20, right: 80, bottom: 30, left: 50},
         width = w - margin.left - margin.right,
@@ -151,11 +133,15 @@ function timeSeriesCategorical() {
             // scale the x and y domains based on the actual data
             //xScale.domain(d3.extent(data, function(d) { return d[0]; }));
             // TODO fix this hack setting domain to full day
-            var td = data[0][0];
-            dayStart = new Date(td.getFullYear(), td.getMonth(), td.getDate());
-            dayEnd = new Date(td.getFullYear(), td.getMonth(), td.getDate(),
-                              23, 59, 59, 999);
-            xScale.domain([dayStart, dayEnd]);
+            if (data.length >= 1) {
+                var td = data[0][0];
+                dayStart = new Date(td.getFullYear(), td.getMonth(), td.getDate());
+                dayEnd = new Date(td.getFullYear(), td.getMonth(), td.getDate(),
+                                  23, 59, 59, 999);
+                xScale.domain([dayStart, dayEnd]);
+            } else {
+                xScale.domain(d3.extent(data, function(d) { return d[0]; }));
+            }
             if (!yDomain) {
                 yScale.domain(d3.extent(data, function(d) { return d[1]; }));
             } else {
@@ -259,7 +245,7 @@ function timeSeriesCategorical() {
 }
 
 function timeSeriesBar() {
-    var w = 860,
+    var w = 800,
         h = 120,
         margin = {top: 20, right: 80, bottom: 30, left: 50},
         width = w - margin.left - margin.right,
@@ -294,11 +280,15 @@ function timeSeriesBar() {
             // scale the x and y domains based on the actual data
             //xScale.domain(d3.extent(data, function(d) { return d[0]; }));
             // TODO: fix this hack (explicitly setting range to one day)
-            var td = data[0][0];
-            dayStart = new Date(td.getFullYear(), td.getMonth(), td.getDate());
-            dayEnd = new Date(td.getFullYear(), td.getMonth(), td.getDate(),
-                              23, 59, 59, 999);
-            xScale.domain([dayStart, dayEnd]);
+            if (data.length >= 1) {
+                var td = data[0][0];
+                dayStart = new Date(td.getFullYear(), td.getMonth(), td.getDate());
+                dayEnd = new Date(td.getFullYear(), td.getMonth(), td.getDate(),
+                                  23, 59, 59, 999);
+                xScale.domain([dayStart, dayEnd]);
+            } else {
+                xScale.domain(d3.extent(data, function(d) { return d[0]; }));
+            }
             if (!yDomain) {
                 yScale.domain(d3.extent(data, function(d) { return d[1]; }));
             } else {
