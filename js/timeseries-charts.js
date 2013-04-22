@@ -242,7 +242,6 @@ function timeSeriesCategorical() {
     chart.yRange = function(_) {
         if (!arguments.length) return yRange;
         yRange = _;
-        console.log(yRange);
         return chart;
     };
 
