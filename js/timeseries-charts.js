@@ -191,13 +191,9 @@ function timeSeriesCategorical() {
                 .attr('stroke', function(d, i) { return yScale(d[1]); });
 
             // bars legend
-            var legendData = [],
-                legendFields = {};
-            data.forEach(function(d) {
-                if (!(d[1] in legendFields)) {
-                    legendData.push([d[1], yScale(d[1])]);
-                    legendFields[d[1]] = 1;
-                }
+            var legendData = [];
+            yDomain.forEach(function(d) {
+                legendData.push([d, yScale(d)]);
             });
             var legend = svg.append('g')
                 .attr('class', 'legend')

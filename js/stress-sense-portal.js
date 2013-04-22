@@ -84,7 +84,7 @@ d3.csv(fname, function(data) {
         var chartActivity = timeSeriesCategorical()
             .x(function(d) { return d.when; })
             .y(function(d) { return d.activity; })
-            .yDomain([0, 1]);
+            .yDomain(['stationary', 'walking', 'running', 'cycling', 'driving']);
           d3.select('#chart-activity')
             .datum(data)
             .call(chartActivity);
@@ -109,7 +109,7 @@ d3.csv(fname, function(data) {
         var chartAudio = timeSeriesCategorical()
             .x(function(d) { return d.when; })
             .y(function(d) { return d.audio; })
-            .yDomain([0, 1]);
+            .yDomain(['silence', 'noise', 'Voice Not-Stressed', 'Voice Stressed']);
           d3.select('#chart-audio')
             .datum(data)
             .call(chartAudio);
