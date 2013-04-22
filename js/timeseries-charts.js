@@ -112,6 +112,7 @@ function timeSeriesCategorical() {
     var xValue = function(d) { return d[0]; },
         yValue = function(d) { return d[1]; };
     var yDomain = null;
+    var yRange = d3.scale.category20().range();
     var xScale = d3.time.scale()
         .range([0, width]);
     var yScale = d3.scale.category20();
@@ -146,6 +147,7 @@ function timeSeriesCategorical() {
                 yScale.domain(d3.extent(data, function(d) { return d[1]; }));
             } else {
                 yScale.domain(yDomain);
+                yScale.range(yRange);
             }
 
             // compute binwidths for TODO better comment
@@ -234,6 +236,13 @@ function timeSeriesCategorical() {
     chart.yDomain = function(_) {
         if (!arguments.length) return yDomain;
         yDomain = _;
+        return chart;
+    };
+
+    chart.yRange = function(_) {
+        if (!arguments.length) return yRange;
+        yRange = _;
+        console.log(yRange);
         return chart;
     };
 

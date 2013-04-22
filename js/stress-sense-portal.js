@@ -109,7 +109,8 @@ d3.csv(fname, function(data) {
         var chartAudio = timeSeriesCategorical()
             .x(function(d) { return d.when; })
             .y(function(d) { return d.audio; })
-            .yDomain(['silence', 'noise', 'Voice Not-Stressed', 'Voice Stressed']);
+            .yDomain(['silence', 'Voice Stressed', 'Voice Not-Stressed', 'noise'])
+            .yRange(d3.scale.category20().range().slice(5,9));
           d3.select('#chart-audio')
             .datum(data)
             .call(chartAudio);
