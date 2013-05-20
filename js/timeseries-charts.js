@@ -114,7 +114,7 @@ function timeSeriesCategorical() {
     var yDomain = null;
     var yRange = d3.scale.category20().range();
     var xScale = d3.time.scale()
-        .range([0, width]);
+        .range([0, 642]);
     var yScale = d3.scale.category20();
     var xAxis = d3.svg.axis()
         .scale(xScale)
@@ -136,9 +136,10 @@ function timeSeriesCategorical() {
             // TODO fix this hack setting domain to full day
             if (data.length >= 1) {
                 var td = data[0][0];
-                dayStart = new Date(td.getFullYear(), td.getMonth(), td.getDate());
+                dayStart = new Date(td.getFullYear(), td.getMonth(), td.getDate(),
+                                    1, 00, 00, 000);
                 dayEnd = new Date(td.getFullYear(), td.getMonth(), td.getDate(),
-                                  23, 59, 59, 999);
+                                  23, 00, 00, 000);
                 xScale.domain([dayStart, dayEnd]);
             } else {
                 xScale.domain(d3.extent(data, function(d) { return d[0]; }));
@@ -158,7 +159,7 @@ function timeSeriesCategorical() {
                     w_next = xScale(data[i+1][0]);
                     binwidth = w_next - w_current;
                 }
-                d.binwidth = binwidth;
+                d.binwidth = 2;//binwidth;
             });
 
             // create chart space as svg
@@ -242,6 +243,7 @@ function timeSeriesCategorical() {
     chart.yRange = function(_) {
         if (!arguments.length) return yRange;
         yRange = _;
+        console.log(yRange);
         return chart;
     };
 
@@ -258,13 +260,13 @@ function timeSeriesBar() {
         yValue = function(d) { return d[1]; };
     var yDomain = null;
     var xScale = d3.time.scale()
-        .range([0, width]);
+        .range([0, 642]);
     var yScale = d3.scale.linear()
         .rangeRound([height, 0])
         .clamp(true);
     var xAxis = d3.svg.axis()
         .scale(xScale)
-        .tickSubdivide(1)
+        .tickSubdivide(2)
         .tickSize(-height)
         .orient('bottom');
     var yAxis = d3.svg.axis()
@@ -286,9 +288,10 @@ function timeSeriesBar() {
             // TODO: fix this hack (explicitly setting range to one day)
             if (data.length >= 1) {
                 var td = data[0][0];
-                dayStart = new Date(td.getFullYear(), td.getMonth(), td.getDate());
+                dayStart = new Date(td.getFullYear(), td.getMonth(), td.getDate(),
+                                    1, 00, 00, 000);
                 dayEnd = new Date(td.getFullYear(), td.getMonth(), td.getDate(),
-                                  23, 59, 59, 999);
+                                  23, 00, 00, 000);
                 xScale.domain([dayStart, dayEnd]);
             } else {
                 xScale.domain(d3.extent(data, function(d) { return d[0]; }));
