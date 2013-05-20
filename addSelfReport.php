@@ -1,4 +1,7 @@
 <?php
+
+
+
 $first= str_replace("%20"," ", $_GET['time']);
 $uid= $_GET['uid'];
 $day= $_GET['day'];
@@ -16,6 +19,9 @@ $finalLines[0]= $lines[0];
 $finalCSV= "";
 $didweaddit= false;
 $insertline= 0;
+
+//TO DO:
+//If there are no lines currently in here, create a new structure with this brand new self report.
 
 for($i=1; $i<count($lines); $i++)
 {
