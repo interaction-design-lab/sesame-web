@@ -1,5 +1,4 @@
 <?php
-ini_set("auto_detect_line_endings", true);
 $first= str_replace("%20"," ", $_GET['time']);
 $uid= $_GET['uid'];
 $day= $_GET['day'];
@@ -31,16 +30,7 @@ for($i=1; $i<count($lines); $i++)
          throw new RuntimeException ("orig Hour Format not valid");
     }
     $this_time = (int) $parse['hours'] * 3600 + (int) $parse['mins'] * 60 + (int) $parse['secs'];
-    /*
-    $hour = substr($lines[$i+1],13,8);
-    $parse = array();
-    $hour= str_replace(".","0",$hour);
-    if (!preg_match ('#^(?<hours>[\d]{2}):(?<mins>[\d]{2}):(?<secs>[\d]{2})$#',$hour,$parse)) {
-         // Throw error, exception, etc
-         throw new RuntimeException ("orig Hour Format not valid");
-    }
-    $next_time = (int) $parse['hours'] * 3600 + (int) $parse['mins'] * 60 + (int) $parse['secs'];
-    */
+
     $hour = substr($first,11,8);
     $parse = array();
     if (!preg_match ('#^(?<hours>[\d]{2}):(?<mins>[\d]{2}):(?<secs>[\d]{2})$#',$hour,$parse)) {
@@ -67,9 +57,6 @@ for($i=1; $i<count($lines); $i++)
 if(!$didweaddit)
 array_push($finalLines, $finalString);
 
-foreach($finalLines as $key => $value){
-echo $value." :: ";
-}
 
 file_put_contents($filename,"");
 
