@@ -256,6 +256,8 @@ for(var i=12; i<264; i++)
     
     var pointColor = getSpectrum(i,numPoints);
     
+    //TODO:
+    //change "03-10" to the actual month and day
     $('#colorbars').append('<div id="colorbar'+i+'" onclick="addNote($(this));" circlenum="" linenum="2013-03-10 '+hours+':'+minutes+':00" onmousedown="startSelecting($(this));" onmouseup="doneSelecting($(this));" flagged="false" onmouseover="highlightTime($(this),'+i+',\''+pointColor+'\');" onmouseout="unhighlightTime($(this), '+i+',\''+pointColor+'\');" color="'+getSpectrum(i, numPoints)+'" style="cursor:pointer;position:fixed;z-index:7;margin-left:'+(scaletime*((i*5*60)-zerotime))+'px;width:7px;height:100%;opacity:0;background-color:'+getSpectrum(i, numPoints)+';"></div>');
 }
 
