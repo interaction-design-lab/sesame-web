@@ -1,7 +1,7 @@
-stress-sense-portal
-===================
+SESAME
+======
 
-Webviews for StressSense2 data.
+Webviews for SESAME: the Stress Experience Sampling and Measurement Experiment.
 
 Phil Adams (http://philadams.net) and the Interaction Design Lab
 (http://idl.cornell.edu).
@@ -14,4 +14,3 @@ future
 ------
 
 - connect map points to charts
-- vertical line on charts to more clearly show time is same across all
